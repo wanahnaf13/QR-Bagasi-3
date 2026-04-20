@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QR Bagasi</title>
+</head>
+<body style="text-align:center; font-family:sans-serif;">
+
+  <h2>📦 Bagasi Dijumpai</h2>
+  <p>Sila tekan untuk hantar lokasi</p>
+
+  <button onclick="hantarLokasi()">Hantar Lokasi</button>
+
+  <p id="status"></p>
+
+<script>
+function hantarLokasi() {
+  var status = document.getElementById("status");
+
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var lat = pos.coords.latitude;
+    var lon = pos.coords.longitude;
+
+    status.innerHTML = "Lokasi dihantar!";
+
+    fetch("https://script.google.com/macros/s/AKfycbzyupTGO3iTj7xrRSYCD5mwRaMgeZbjDuXf4zBsup6bGE9XXJC4fFADjZMLmuZHt9AM/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        latitude: lat,
+        longitude: lon
+      })
+    });
+
+  }, function() {
+    status.innerHTML = "Lokasi tidak dibenarkan";
+  });
+}
+</script>
+
+</body>
+</html>
